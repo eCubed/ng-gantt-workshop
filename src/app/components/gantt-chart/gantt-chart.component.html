@@ -1,0 +1,43 @@
+<div class="gantt-chart">
+
+  <div class="task-names">
+    @for (task of tasks; track task.name) {
+      <div class="task-name"
+
+        [style.height.px]="taskHeightPx"
+        [style.width.px]="taskLabelWidthPx"
+      >{{ task.name }}</div>
+    }
+
+  </div>
+
+  <div class="task-rectangles-viewport">
+    <div class="date-labels-container">
+      @for (marker of verticalMarkers; track marker.percentLeft) {
+        <div class="date-label" [style.left.%]="marker.percentLeft">
+          <div>
+          {{ marker.date | date: 'MMM d, yyyy'}}
+          </div>
+        </div>
+      }
+    </div>
+    <div class="task-rectangles-container" #taskRectanglesContainer>
+      @for (task of tasks; track $index) {
+        <div
+          class="task-rectangle"
+          [style.left.%]="calculateXPercent(task)"
+          [style.width.%]="calculateWidthPercent(task)"
+          [style.height.px]="taskHeightPx"
+          [style.top.px]="calculateYCoordinate($index)"
+        >
+        </div>
+      }
+
+      @for (marker of verticalMarkers; track marker.percentLeft) {
+        <div class="vertical-marker" [style.left.%]="marker.percentLeft">
+        </div>
+      }
+    </div>
+  </div>
+
+</div>

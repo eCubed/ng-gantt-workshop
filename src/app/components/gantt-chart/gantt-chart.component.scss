@@ -1,0 +1,64 @@
+.gantt-chart {
+  padding: 0;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+
+  border: 1px solid #ccc;
+}
+
+
+
+.task-names {
+  min-width: 100px; /* Adjust as needed */
+  padding-top: 30px;
+
+  .task-name {
+    box-sizing: border-box;
+    border: 1px solid #002848;
+    background-color: #2196f3; /* Set a color for the task name column */
+  }
+
+}
+
+.task-rectangles-viewport {
+  overflow-x: scroll;
+  flex: 1;
+
+  .date-labels-container {
+    position: relative;
+    height: 30px;
+    width: 200%;
+
+    vertical-align: center;
+
+    .date-label {
+      position: absolute;
+      bottom: 0;
+    }
+  }
+
+  .task-rectangles-container {
+    position: relative;
+    width: 200%;
+    .task-rectangle {
+      box-sizing: border-box;
+      position: absolute;
+      background-color: #4caf50; /* Set a color for the tasks */
+      border: 1px solid #2e7d32; /* Set a border color for the tasks */
+    }
+
+    .vertical-marker {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      //width: 1px;
+      //width: 11px; /* Width of the marker line */
+      border-left: solid 1px #ff5722; /* Set a color for the vertical marker lines */
+
+    }
+
+  }
+}
+
+
+
