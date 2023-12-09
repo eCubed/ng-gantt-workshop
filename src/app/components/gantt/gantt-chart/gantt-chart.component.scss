@@ -1,7 +1,6 @@
 .gantt-chart {
   padding: 0;
   display: grid;
-  grid-template-columns: 200px 1fr;
 
   border: 1px solid #ccc;
 }
@@ -9,13 +8,13 @@
 
 
 .task-names {
-  min-width: 100px; /* Adjust as needed */
   padding-top: 30px;
 
   .task-name {
     box-sizing: border-box;
-    border: 1px solid #002848;
+    border: 1px solid #0a538f;
     background-color: #2196f3; /* Set a color for the task name column */
+    padding: 0.5em;
   }
 
 }
@@ -33,7 +32,7 @@
 
     .date-label {
       position: absolute;
-      bottom: 0;
+      bottom: 5px;
     }
   }
 
