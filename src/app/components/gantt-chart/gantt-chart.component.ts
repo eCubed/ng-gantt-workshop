@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2, ViewChild, afterNextRender } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, Renderer2, SimpleChanges, ViewChild, afterNextRender } from '@angular/core';
 import { Task } from '../../models/base-models';
 import { CommonModule } from '@angular/common';
 
@@ -16,24 +16,30 @@ interface VerticalMarker {
   templateUrl: './gantt-chart.component.html',
   styleUrl: './gantt-chart.component.scss'
 })
-export class GanttChartComponent implements OnInit, AfterViewInit {
+export class GanttChartComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() tasks: Task[] = [];
+  @Input() scale: number = 100;
   verticalMarkers?: VerticalMarker[] = [];
   taskHeightPx = 75;
-  scale = 0.00001;
   taskLabelWidthPx = 200;
 
   minStartTime!: number
 
   @ViewChild('taskRectanglesContainer', { read: ElementRef }) taskRectanglesContainer!: ElementRef
+  @ViewChild('dateLabelsContainer', { read: ElementRef }) dateLabelsContainer!: ElementRef
 
   constructor(private renderer: Renderer2) {
 
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['scale'] && changes['scale'].currentValue != null) {
+      console.log('scale changed...')
+      this.setScrollablePercentWidths()
+    }
+  }
+
   ngOnInit(): void {
-    // Sort tasks by start date if needed
-    this.tasks.sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
 
     // Find the minimum start time to use as a reference point for scaling
     this.minStartTime = this.tasks.length > 0 ? this.tasks[0].startDate.getTime() : 0;
@@ -42,18 +48,16 @@ export class GanttChartComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-     // Calculate and set the vertical markers
      this.renderer.setStyle(this.taskRectanglesContainer.nativeElement, 'height', `${this.taskHeightPx * this.tasks.length}px`)
+     this.setScrollablePercentWidths()
   }
 
-  calculateXCoordinate(task: Task): number {
-    const startTime = task.startDate.getTime();
+  setScrollablePercentWidths() {
+    if (this.taskRectanglesContainer != null && this.dateLabelsContainer != null) {
+      this.renderer.setStyle(this.taskRectanglesContainer.nativeElement, 'width', `${this.scale}%`)
+      this.renderer.setStyle(this.dateLabelsContainer.nativeElement, 'width', `${this.scale}%`)
 
-    const relativeStartTime = startTime - this.minStartTime;
-
-
-    // Ensure that .task-rectangle is positioned to the right of .task-name
-    return relativeStartTime * this.scale
+    }
   }
 
   calculateXPercent(task: Task): number {
@@ -84,7 +88,6 @@ export class GanttChartComponent implements OnInit, AfterViewInit {
 
     // Calculate the width of each sub-interval in pixels
     const subIntervalPercent = 1 / numSubIntervals * 100;
-    console.log(`num subintervals: ${numSubIntervals}, subIntervalPercent: ${subIntervalPercent}`)
 
     // Calculate the position of each vertical markerhis.minStartTime))
     this.verticalMarkers = Array.from({ length: numSubIntervals }, (_, index) => { return { date: new Date(this.minStartTime + index * 86_400_000), percentLeft: index * subIntervalPercent }});

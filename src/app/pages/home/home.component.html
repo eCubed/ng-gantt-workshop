@@ -1,2 +1,10 @@
 <p>home works!</p>
-<app-gantt-chart [tasks]="tasks"></app-gantt-chart>
+<app-gantt-chart [tasks]="tasks" [scale]="scaleFactor"></app-gantt-chart>
+<select [(ngModel)]="scaleFactor">
+  @for (scaleFactorX of scaleFactors; track scaleFactorX) {
+    <option [value]="scaleFactorX">{{ scaleFactorX }}%</option>
+  }
+</select>
+<div>
+  {{scaleFactor}}
+</div>

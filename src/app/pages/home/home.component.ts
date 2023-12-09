@@ -2,18 +2,23 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { GanttChartComponent } from '../../components/gantt-chart/gantt-chart.component';
 import { Task } from '../../models/base-models';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     GanttChartComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
+  scaleFactors: number[] = [100, 150, 200, 250, 300]
+  scaleFactor: number = 100
+
   tasks: Task[] = [
     { name: 'Task A', startDate: new Date('2023-01-01T08:00:00'), endDate: new Date('2023-01-02T10:00:00') },
     { name: 'Task B', startDate: new Date('2023-01-02T11:30:00'), endDate: new Date('2023-01-03T14:30:00') },

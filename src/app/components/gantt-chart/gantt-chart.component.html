@@ -12,7 +12,7 @@
   </div>
 
   <div class="task-rectangles-viewport">
-    <div class="date-labels-container">
+    <div class="date-labels-container" #dateLabelsContainer>
       @for (marker of verticalMarkers; track marker.percentLeft) {
         <div class="date-label" [style.left.%]="marker.percentLeft">
           <div>
