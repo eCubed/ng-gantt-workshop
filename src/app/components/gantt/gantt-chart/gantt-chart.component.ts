@@ -29,7 +29,6 @@ export class GanttChartComponent<TGanttTask extends IGanttTask> implements OnIni
 
   minStartTime!: number
 
-  //@ViewChild('taskRectanglesContainer', { read: ElementRef }) taskRectanglesContainer!: ElementRef
   @ViewChild('dateLabelsContainer', { read: ElementRef }) dateLabelsContainer!: ElementRef
   @ViewChild('ganttChart', { read: ElementRef }) ganttChart!: ElementRef
 
@@ -39,7 +38,7 @@ export class GanttChartComponent<TGanttTask extends IGanttTask> implements OnIni
 
   ngOnInit(): void {
 
-    this.minStartTime =  Math.min(...this.sections.flatMap(s => s.tasks).map(task => task.startDate.getTime())); //this.tasks.length > 0 ? this.tasks[0].startDate.getTime() : 0;
+    this.minStartTime =  Math.min(...this.sections.flatMap(s => s.tasks).map(task => task.startDate.getTime()));
 
     this.calculateVerticalMarkers()
   }
@@ -48,11 +47,11 @@ export class GanttChartComponent<TGanttTask extends IGanttTask> implements OnIni
     console.log('gantt after view init')
     this.renderer.setStyle(this.ganttChart.nativeElement, 'grid-template-columns', `${this.taskLabelWidthPx}px 1fr`)
 
+
     setTimeout(() => {
       this.isReadyToRenderBars = true
-    }, 200)
-    //this.renderer.setStyle(this.taskRectanglesContainer.nativeElement, 'height', `${this.taskHeightPx * this.tasks.length}px`)
-    //this.setScrollablePercentWidths()
+    }, 100)
+
   }
 
 

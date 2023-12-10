@@ -1,7 +1,5 @@
 <div class="gantt-chart" #ganttChart>
 
-
-
   @if(isReadyToRenderBars) {
     @for(section of sections; track section.name; let lastSection = $last) {
       <div>
@@ -35,6 +33,7 @@
         <div class="bar-viewport">
           <div class="bar-track"
             appScrollScale
+            [style.height.px]="taskHeightPx"
             [scroll-percent]="0"
             [scale-percent]="scale">
             <div class="bar"

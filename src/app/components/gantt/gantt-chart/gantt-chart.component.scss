@@ -45,7 +45,7 @@
 
     .bar-track {
       position: relative;
-
+      box-sizing: border-box;
       .bar {
         box-sizing: border-box;
         position: absolute;
