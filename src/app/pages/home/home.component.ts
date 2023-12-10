@@ -19,8 +19,8 @@ export class HomeComponent {
   scaleFactors: number[] = [100, 150, 200, 250, 300]
   scaleFactor: number = 100
 
-  /*
-  sections: GanttSection[] = [
+
+  sections: GanttSection<IGanttTask>[] = [
     {
       name: 'Group Alpha',
       tasks: [
@@ -42,7 +42,7 @@ export class HomeComponent {
       ]
     }
   ]
-  */
+
 
   tasks: IGanttTask[] = [
 

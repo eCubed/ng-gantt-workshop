@@ -1,3 +1,4 @@
+import { GanttSection } from './../gantt-models';
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, SimpleChanges, ViewChild, afterNextRender } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IGanttTask, VerticalMarker } from '../gantt-models';
@@ -14,7 +15,8 @@ import { ScrollScaleDirective } from '../../../widgets/scroll-scale.directive';
   styleUrl: './gantt-chart.component.scss'
 })
 export class GanttChartComponent<TGanttTask extends IGanttTask> implements OnInit, AfterViewInit {
-  @Input() tasks: TGanttTask[] = [];
+  //@Input() tasks: TGanttTask[] = [];
+  @Input() sections: GanttSection<TGanttTask>[] = []
   @Input() scale: number = 100
   @Input('task-height-px') taskHeightPx = 75
   @Input('task-label-width-px') taskLabelWidthPx = 250
@@ -37,7 +39,7 @@ export class GanttChartComponent<TGanttTask extends IGanttTask> implements OnIni
 
   ngOnInit(): void {
 
-    this.minStartTime = this.tasks.length > 0 ? this.tasks[0].startDate.getTime() : 0;
+    this.minStartTime =  Math.min(...this.sections.flatMap(s => s.tasks).map(task => task.startDate.getTime())); //this.tasks.length > 0 ? this.tasks[0].startDate.getTime() : 0;
 
     this.calculateVerticalMarkers()
   }
@@ -81,7 +83,7 @@ export class GanttChartComponent<TGanttTask extends IGanttTask> implements OnIni
 
   getTotalDurationMs(): number {
     const earliestStartTime = this.minStartTime;
-    const latestEndTime = Math.max(...this.tasks.map(task => task.endDate.getTime()));
+    const latestEndTime = Math.max(...this.sections.flatMap(s => s.tasks).map(task => task.endDate.getTime()));
     return (latestEndTime - earliestStartTime)
   }
 

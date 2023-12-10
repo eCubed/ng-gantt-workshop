@@ -1,53 +1,60 @@
 <div class="gantt-chart" #ganttChart>
 
-  <div>
-    <!-- Blank top left corner -->
-  </div>
+
 
   @if(isReadyToRenderBars) {
-
-    <div class="date-labels-viewport">
-      <div class="date-labels-track"
-        appScrollScale
-        [scroll-percent]="0"
-        [scale-percent]="scale"
-        >
-        @for (marker of verticalMarkers; track marker.percentLeft) {
-          <div class="date-label" [style.left.%]="marker.percentLeft">
-            <div>
-            {{ marker.date | date: 'MMM d, yyyy'}}
-            </div>
-          </div>
-        }
+    @for(section of sections; track section.name; let lastSection = $last) {
+      <div>
+        <!-- Blank top left corner -->
       </div>
-    </div>
-    <div class="section">
-      Section
-    </div>
-    <!-- Task "Row"-->
-    @for (task of tasks; track $index) {
-      <div class="task-name"
-          [style.height.px]="taskHeightPx"
-          [style.width.px]="taskLabelWidthPx"
-        >{{ task.name }}</div>
-      <div class="bar-viewport">
-        <div class="bar-track"
+      <div class="date-labels-viewport">
+        <div class="date-labels-track"
           appScrollScale
           [scroll-percent]="0"
-          [scale-percent]="scale">
-          <div class="bar"
-            (click)="onTaskRectangleClicked(task)"
-            [style.left.%]="calculateXPercent(task)"
-            [style.width.%]="calculateWidthPercent(task)"
-            [style.height.px]="taskHeightPx"
-            >
-          </div>
+          [scale-percent]="scale"
+          >
           @for (marker of verticalMarkers; track marker.percentLeft) {
-            <div class="vertical-marker" [style.left.%]="marker.percentLeft">
+            <div class="date-label" [style.left.%]="marker.percentLeft">
+              <div>
+              {{ marker.date | date: 'MMM d, yyyy'}}
+              </div>
             </div>
           }
         </div>
       </div>
+      <div class="section">
+        {{ section.name }}
+      </div>
+      <!-- Task "Row"-->
+      @for (task of section.tasks; track $index) {
+        <div class="task-name"
+            [style.height.px]="taskHeightPx"
+            [style.width.px]="taskLabelWidthPx"
+          >{{ task.name }}
+        </div>
+        <div class="bar-viewport">
+          <div class="bar-track"
+            appScrollScale
+            [scroll-percent]="0"
+            [scale-percent]="scale">
+            <div class="bar"
+              (click)="onTaskRectangleClicked(task)"
+              [style.left.%]="calculateXPercent(task)"
+              [style.width.%]="calculateWidthPercent(task)"
+              [style.height.px]="taskHeightPx"
+              >
+            </div>
+            @for (marker of verticalMarkers; track marker.percentLeft) {
+              <div class="vertical-marker" [style.left.%]="marker.percentLeft">
+              </div>
+            }
+          </div>
+        </div>
+      }
+      @if(!lastSection) {
+        <div class="section-spacer"></div>
+      }
     }
+
   }
 </div>

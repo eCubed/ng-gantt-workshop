@@ -59,12 +59,15 @@
         top: 0;
         bottom: 0;
         height: 75px;
-        //width: 1px;
-        //width: 11px;
         border-left: solid 1px #ff5722;
 
       }
     }
+  }
+
+  .section-spacer {
+    grid-column: 1 / span 2;
+    height: 2em;
   }
 
 }
