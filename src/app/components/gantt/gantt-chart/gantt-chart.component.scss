@@ -21,7 +21,7 @@
 
 .task-rectangles-viewport {
   overflow-x: scroll;
-  flex: 1;
+  --scrollbar-color: yellow red;
 
   .date-labels-container {
     position: relative;
@@ -44,6 +44,7 @@
       position: absolute;
       background-color: #4caf50; /* Set a color for the tasks */
       border: 1px solid #2e7d32; /* Set a border color for the tasks */
+      cursor: pointer;
     }
 
     .vertical-marker {

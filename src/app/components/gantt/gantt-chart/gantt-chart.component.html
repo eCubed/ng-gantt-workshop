@@ -12,7 +12,11 @@
   </div>
 
   <div class="task-rectangles-viewport">
-    <div class="date-labels-container" #dateLabelsContainer>
+    <div class="date-labels-container" #dateLabelsContainer
+       appScrollScale
+       [scroll-percent]="0"
+       [scale-percent]="scale"
+    >
       @for (marker of verticalMarkers; track marker.percentLeft) {
         <div class="date-label" [style.left.%]="marker.percentLeft">
           <div>
@@ -21,10 +25,15 @@
         </div>
       }
     </div>
-    <div class="task-rectangles-container" #taskRectanglesContainer>
+    <div class="task-rectangles-container" #taskRectanglesContainer
+      appScrollScale
+      [scroll-percent]="0"
+      [scale-percent]="scale"
+    >
       @for (task of tasks; track $index) {
         <div
           class="task-rectangle"
+          (click)="onTaskRectangleClicked(task)"
           [style.left.%]="calculateXPercent(task)"
           [style.width.%]="calculateWidthPercent(task)"
           [style.height.px]="taskHeightPx"

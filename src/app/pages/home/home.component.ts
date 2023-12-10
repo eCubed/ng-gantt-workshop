@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { GanttChartComponent } from '../../components/gantt/gantt-chart/gantt-chart.component';
 import { FormsModule } from '@angular/forms';
-import { GanttSection, GanttTask } from '../../components/gantt/gantt-models';
+import { GanttSection, IGanttTask } from '../../components/gantt/gantt-models';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +19,7 @@ export class HomeComponent {
   scaleFactors: number[] = [100, 150, 200, 250, 300]
   scaleFactor: number = 100
 
+  /*
   sections: GanttSection[] = [
     {
       name: 'Group Alpha',
@@ -41,14 +42,15 @@ export class HomeComponent {
       ]
     }
   ]
+  */
 
-  tasks: GanttTask[] = [
+  tasks: IGanttTask[] = [
 
-    { name: 'Task F', startDate: new Date('2023-01-07T14:00:00'), endDate: new Date('2023-01-09T08:30:00') },
-    { name: 'Task G', startDate: new Date('2023-01-09T09:00:00'), endDate: new Date('2023-01-10T11:00:00') },
-    { name: 'Task H', startDate: new Date('2023-01-10T12:30:00'), endDate: new Date('2023-01-11T15:30:00') },
-    { name: 'Task I', startDate: new Date('2023-01-11T16:00:00'), endDate: new Date('2023-01-12T18:00:00') },
-    { name: 'Task J', startDate: new Date('2023-01-12T19:30:00'), endDate: new Date('2023-01-14T08:00:00') },
+    { name: 'Task F', startDate: new Date('2023-01-07T00:00:00'), endDate: new Date('2023-01-09T00:00:00') },
+    { name: 'Task G', startDate: new Date('2023-01-09T00:00:00'), endDate: new Date('2023-01-10T00:00:00') },
+    { name: 'Task H', startDate: new Date('2023-01-10T00:00:00'), endDate: new Date('2023-01-11T00:00:00') },
+    { name: 'Task I', startDate: new Date('2023-01-11T00:00:00'), endDate: new Date('2023-01-12T00:00:00') },
+    { name: 'Task J', startDate: new Date('2023-01-12T00:00:00'), endDate: new Date('2023-01-14T00:00:00') },
   ];
 
 }

@@ -1,21 +1,26 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, Renderer2, SimpleChanges, ViewChild, afterNextRender } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, Renderer2, SimpleChanges, ViewChild, afterNextRender } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GanttTask, VerticalMarker } from '../gantt-models';
+import { IGanttTask, VerticalMarker } from '../gantt-models';
+import { ScrollScaleDirective } from '../../../widgets/scroll-scale.directive';
 
 @Component({
   selector: 'app-gantt-chart',
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    ScrollScaleDirective
   ],
   templateUrl: './gantt-chart.component.html',
   styleUrl: './gantt-chart.component.scss'
 })
-export class GanttChartComponent implements OnInit, AfterViewInit, OnChanges {
-  @Input() tasks: GanttTask[] = [];
+export class GanttChartComponent<TGanttTask extends IGanttTask> implements OnInit, AfterViewInit, OnChanges {
+  @Input() tasks: TGanttTask[] = [];
   @Input() scale: number = 100
   @Input('task-height-px') taskHeightPx = 75
   @Input('task-label-width-px') taskLabelWidthPx = 250
+  @Output('task-selected') taskSelected: EventEmitter<TGanttTask> = new EventEmitter<TGanttTask>()
+
+
   verticalMarkers?: VerticalMarker[] = []
 
   minStartTime!: number
@@ -29,9 +34,11 @@ export class GanttChartComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    /*
     if (changes['scale'] && changes['scale'].currentValue != null) {
       this.setScrollablePercentWidths()
     }
+    */
   }
 
   ngOnInit(): void {
@@ -55,7 +62,7 @@ export class GanttChartComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  calculateXPercent(task: GanttTask): number {
+  calculateXPercent(task: IGanttTask): number {
     const startTime = task.startDate.getTime();
     const relativeStartTime = startTime - this.minStartTime;
     return relativeStartTime / this.getTotalDurationMs() * 100
@@ -65,7 +72,7 @@ export class GanttChartComponent implements OnInit, AfterViewInit, OnChanges {
     return index * this.taskHeightPx
   }
 
-  calculateWidthPercent(task: GanttTask): number {
+  calculateWidthPercent(task: IGanttTask): number {
     return (task.endDate.getTime() - task.startDate.getTime()) / this.getTotalDurationMs() * 100
   }
 
@@ -92,6 +99,10 @@ export class GanttChartComponent implements OnInit, AfterViewInit, OnChanges {
 
   getTotalDurationDays(): number {
     return this.getTotalDurationMs() / 86_400_000;
+  }
+
+  onTaskRectangleClicked(task: TGanttTask) {
+
   }
 
 }

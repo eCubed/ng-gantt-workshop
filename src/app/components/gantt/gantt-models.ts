@@ -1,9 +1,9 @@
-export interface GanttSection {
+export interface GanttSection<TGanttTask extends IGanttTask> {
   name: string,
-  tasks: Array<GanttTask>
+  tasks: Array<TGanttTask>
 }
 
-export interface GanttTask {
+export interface IGanttTask {
   name: string;
   startDate: Date;
   endDate: Date;
