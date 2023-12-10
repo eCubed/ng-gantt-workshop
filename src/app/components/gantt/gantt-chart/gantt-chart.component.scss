@@ -3,62 +3,68 @@
   display: grid;
 
   border: 1px solid #ccc;
-}
 
+  // Date labels
+  .date-labels-viewport {
+    box-sizing: border-box;
+    background-color: #cccccc;
+    border: solid 1px #bbbbbb;
+    overflow: hidden;
+    height: 30px;
 
+    .date-labels-track {
+      position: relative;
 
-.task-names {
-  padding-top: 30px;
+      .date-label {
+        position: absolute;
+      }
+    }
 
+  }
+
+  .section {
+    grid-column: 1 / span 2;
+    box-sizing: border-box;
+    padding: 0.5em;
+    background-color: #3cb6e3;
+  }
+
+  // For each row
   .task-name {
     box-sizing: border-box;
-    border: 1px solid #0a538f;
-    background-color: #2196f3; /* Set a color for the task name column */
     padding: 0.5em;
+    background-color: #eeeeff;
+    border: solid 1px #ddddee;
+  }
+
+  .bar-viewport {
+    box-sizing: border-box;
+    background-color: #eeeeee;
+    border: solid 1px #dddddd;
+    overflow: hidden;
+
+    .bar-track {
+      position: relative;
+
+      .bar {
+        box-sizing: border-box;
+        position: absolute;
+        background-color: #4caf50;
+        border: 1px solid #2e7d32;
+        cursor: pointer;
+      }
+
+      .vertical-marker {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        height: 75px;
+        //width: 1px;
+        //width: 11px;
+        border-left: solid 1px #ff5722;
+
+      }
+    }
   }
 
 }
-
-.task-rectangles-viewport {
-  overflow-x: scroll;
-  --scrollbar-color: yellow red;
-
-  .date-labels-container {
-    position: relative;
-    height: 30px;
-    //width: 200%;
-
-    vertical-align: center;
-
-    .date-label {
-      position: absolute;
-      bottom: 5px;
-    }
-  }
-
-  .task-rectangles-container {
-    position: relative;
-    //width: 200%;
-    .task-rectangle {
-      box-sizing: border-box;
-      position: absolute;
-      background-color: #4caf50; /* Set a color for the tasks */
-      border: 1px solid #2e7d32; /* Set a border color for the tasks */
-      cursor: pointer;
-    }
-
-    .vertical-marker {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      //width: 1px;
-      //width: 11px; /* Width of the marker line */
-      border-left: solid 1px #ff5722; /* Set a color for the vertical marker lines */
-
-    }
-
-  }
-}
-
-
-

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, Renderer2, SimpleChanges, ViewChild, afterNextRender } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, SimpleChanges, ViewChild, afterNextRender } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IGanttTask, VerticalMarker } from '../gantt-models';
 import { ScrollScaleDirective } from '../../../widgets/scroll-scale.directive';
@@ -13,32 +13,26 @@ import { ScrollScaleDirective } from '../../../widgets/scroll-scale.directive';
   templateUrl: './gantt-chart.component.html',
   styleUrl: './gantt-chart.component.scss'
 })
-export class GanttChartComponent<TGanttTask extends IGanttTask> implements OnInit, AfterViewInit, OnChanges {
+export class GanttChartComponent<TGanttTask extends IGanttTask> implements OnInit, AfterViewInit {
   @Input() tasks: TGanttTask[] = [];
   @Input() scale: number = 100
   @Input('task-height-px') taskHeightPx = 75
   @Input('task-label-width-px') taskLabelWidthPx = 250
   @Output('task-selected') taskSelected: EventEmitter<TGanttTask> = new EventEmitter<TGanttTask>()
 
+  isReadyToRenderBars = false
+
 
   verticalMarkers?: VerticalMarker[] = []
 
   minStartTime!: number
 
-  @ViewChild('taskRectanglesContainer', { read: ElementRef }) taskRectanglesContainer!: ElementRef
+  //@ViewChild('taskRectanglesContainer', { read: ElementRef }) taskRectanglesContainer!: ElementRef
   @ViewChild('dateLabelsContainer', { read: ElementRef }) dateLabelsContainer!: ElementRef
   @ViewChild('ganttChart', { read: ElementRef }) ganttChart!: ElementRef
 
   constructor(private renderer: Renderer2) {
 
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    /*
-    if (changes['scale'] && changes['scale'].currentValue != null) {
-      this.setScrollablePercentWidths()
-    }
-    */
   }
 
   ngOnInit(): void {
@@ -49,27 +43,21 @@ export class GanttChartComponent<TGanttTask extends IGanttTask> implements OnIni
   }
 
   ngAfterViewInit(): void {
+    console.log('gantt after view init')
     this.renderer.setStyle(this.ganttChart.nativeElement, 'grid-template-columns', `${this.taskLabelWidthPx}px 1fr`)
-    this.renderer.setStyle(this.taskRectanglesContainer.nativeElement, 'height', `${this.taskHeightPx * this.tasks.length}px`)
-    this.setScrollablePercentWidths()
+
+    setTimeout(() => {
+      this.isReadyToRenderBars = true
+    }, 200)
+    //this.renderer.setStyle(this.taskRectanglesContainer.nativeElement, 'height', `${this.taskHeightPx * this.tasks.length}px`)
+    //this.setScrollablePercentWidths()
   }
 
-  setScrollablePercentWidths() {
-    if (this.taskRectanglesContainer != null && this.dateLabelsContainer != null) {
-      this.renderer.setStyle(this.taskRectanglesContainer.nativeElement, 'width', `${this.scale}%`)
-      this.renderer.setStyle(this.dateLabelsContainer.nativeElement, 'width', `${this.scale}%`)
-
-    }
-  }
 
   calculateXPercent(task: IGanttTask): number {
     const startTime = task.startDate.getTime();
     const relativeStartTime = startTime - this.minStartTime;
     return relativeStartTime / this.getTotalDurationMs() * 100
-  }
-
-  calculateYCoordinate(index: number): number {
-    return index * this.taskHeightPx
   }
 
   calculateWidthPercent(task: IGanttTask): number {
@@ -102,7 +90,7 @@ export class GanttChartComponent<TGanttTask extends IGanttTask> implements OnIni
   }
 
   onTaskRectangleClicked(task: TGanttTask) {
-
+    this.taskSelected.emit(task)
   }
 
 }
