@@ -1,6 +1,9 @@
 .gantt-chart {
   padding: 0;
   display: grid;
+  grid-template-columns: 1fr 5fr;
+  overflow-y: scroll;
+  max-height: 100vh;
 
   border: 1px solid #ccc;
 
@@ -17,6 +20,7 @@
 
       .date-label {
         position: absolute;
+        top: 7px;
       }
     }
 
