@@ -16,7 +16,7 @@ import { GanttSection, IGanttTask } from '../../components/gantt/gantt-models';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  scaleFactors: number[] = [100, 150, 200, 250, 300]
+  scaleFactors: number[] = [100, 110, 120, 130, 140, 150, 200, 250, 300]
   scaleFactor: number = 100
 
 
